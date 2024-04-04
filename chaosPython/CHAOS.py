@@ -27,7 +27,7 @@ This code will also provide a recap interface and provide ease-of-use for easy s
 '''
 
 
-def coupledMotion(t, satellite_state, t_stop, thrust, nextPixel, torque_thruster, satellite, grids, selected_grid, CS, environment, sensor, it):
+def coupledMotion(t, satellite_state, thrust, torque_thruster, satellite, grids, selected_grid, CS, environment, sensor, it):
     #extract for clarity
     equinoctial = satellite_state[:6] # orbital data
     omega_state = satellite_state[6:] # attitude data
@@ -57,7 +57,7 @@ def coupledMotion(t, satellite_state, t_stop, thrust, nextPixel, torque_thruster
     osculating = modified_equinoctial(t, satellite_state, thrust, orbital_perturb, satellite, selected_grid, environment)
 
     # comptue derivative of rotational state
-    rotational_state = analytical(t, omega_state, t_stop, torque_thruster, torque_env, satellite,  selected_grid, nextPixel)
+    rotational_state = analytical(t, omega_state, torque_thruster, torque_env, satellite,  selected_grid)
     # combine arrays
     state_derivative = np.append(osculating, rotational_state)
 
@@ -243,7 +243,7 @@ def CHAOS(satellite, environment, grids, controlSystem, sensor, dataset, t_stop,
         #integrate the ODE / propagate the motion with analytical form of eq.
         #args passed as complementary variables to the ODE function
                 #tolerances and integrator defined as inputs
-        solver = integrate.solve_ivp(coupledMotion, t_span=(t_start, t_end), y0=init_cond, args=(t_stop, thrust, nextPixel, torque_thruster, satellite, grids, selected_grid, controlSystem, environment, sensor, iteration), events=controlSystem.cut_off_function, dense_output=False, method=integrator, t_eval=None, rtol=tols, atol=tols) 
+        solver = integrate.solve_ivp(coupledMotion, t_span=(t_start, t_end), y0=init_cond, args=(thrust, torque_thruster, satellite, grids, selected_grid, controlSystem, environment, sensor, iteration), events=controlSystem.cut_off_function, dense_output=False, method=integrator, t_eval=None, rtol=tols, atol=tols) 
         
 
         #if grid is on, check whether the pixel was at all ignited 

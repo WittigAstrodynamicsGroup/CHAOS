@@ -1,0 +1,10 @@
+*.cpyt*
+*sh
+*.txt
+*.npz
+
+/output/*
+/figs/*
+/__pycache__/
+/chaosPython/Data/
+/chaosPython/__pycache__/

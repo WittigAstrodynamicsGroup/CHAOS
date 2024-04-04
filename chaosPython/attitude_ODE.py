@@ -13,7 +13,7 @@ import numpy as np
 
 
 # Developed form
-def analytical(t, omega_state, t_stop, torque_thruster, torque_perturb, satellite,  grid, pixel):
+def analytical(t, omega_state, torque_thruster, torque_perturb, satellite,  grid):
     #get omega components and quaternion --- quaternion is first part of array
     quaternion = omega_state[:4]
     omega_rot = omega_state[4:7]# omega rot in body-fixed frame.
