@@ -1,13 +1,31 @@
 #python file to store the Jacchia-77 atmospheric model coefficient (from Frey and Colombo 2019)
 
-'''
-Python code to store the coefficient of the variable J77 atmospheric model.
-'''
+"""
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Author: Kash Saddul
+Institution: Astrodynamics Research Group, 
+                University of Southampton
+Development period: 2020-2024
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+
+J77_coeffs.py
+
+
+
+This Python file stores the atmospheric density coefficients for an interpolation of the Jacchia-77 model. 
+The coefficients are based on the work of Frey and Colombo (2019) 
+The article canm be found online.(https://www.sciencedirect.com/science/article/pii/S0273117719301978)
+
+
+The Jacchia-77 model is an empirical model used to estimate atmospheric density 
+as a function of altitude, time, and solar activity. The coefficients stored in 
+this file are used in the calculations of the model.
+"""
+
 import numpy as np
 
 b = np.array([[5.35674e0, 1.36142e0, -1.71993e0, 1.48408e0, -2.43815e0, 9.19988e0, -1.64492e+1, 1.28147e+1, -3.67526e0], [-6.96022e0, -1.71534e-1, -6.2628e0, 1.70218e+1, -3.66333e1, 7.26606e1, -9.47544e1, 6.43396e1, -1.72245e1], [-1.33334e1, -4.29240e0, 1.12545e0, 1.41418e1, -6.27283e1, 1.53398e2, -2.00134e2, 1.29740e2, -3.30267e1], [-1.78792e1, -2.89047e0, 3.93500e0, 1.67754e1, -1.15289e2, 3.24667e2, -4.59063e2, 3.15704e2, -8.42405e1], [-2.09320e+01, 8.52674e+00, -5.08863e+01, 1.56893e+02, -3.21951e+02, 4.61948e+02, -4.34126e+02, 2.32404e+02, -5.27733e+01], [-2.93700e+01,  5.68339e-02, -2.61029e+01,  2.90804e+02, -1.47321e+03,  3.87334e+03, -5.21125e+03,  3.43718e+03, -8.85649e+02], [-3.29807e+01,  4.90080e+00,  1.78391e+01, -9.35850e+01,  2.24591e+02, -3.60868e+02,  3.73065e+02, -2.15221e+02,  5.18052e+01], [-3.51561e+01, -2.66659e+00,  1.73783e+00, -4.98942e+00,  2.71676e+01,  4.15537e+01, -1.88208e+02,  1.86631e+02, -5.96266e+01]])
 
 a = np.array([[-1.98541e-01, -1.40701e-02,  1.87647e-02, -1.72925e-02,  2.77798e-02, -9.95750e-02,  1.76679e-01, -1.37542e-01,  3.94618e-02], [-9.71648e-02,  7.16062e-03,  4.77822e-02, -1.51184e-01,  3.51432e-01, -7.02642e-01,  9.01640e-01, -6.03103e-01,  1.59691e-01], [-5.05069e-02,  3.33725e-02, -1.85987e-02, -1.03728e-01,  5.51289e-01, -1.41638e+00,  1.87770e+00, -1.22379e+00,  3.11852e-01], [-2.83356e-02,  1.64584e-02, -3.32683e-02,  8.69501e-02, -6.20406e-02, -3.36952e-01,  8.28293e-01, -6.99209e-01,  2.06734e-01], [-2.18893e-02,  8.84693e-03,  5.46460e-02, -2.34999e-01,  5.47095e-01, -8.27779e-01,  7.76841e-01, -4.02671e-01,  8.74533e-02], [-6.24488e-03,  4.90041e-03, -6.03999e-03, -7.24190e-02,  5.32824e-01, -1.79828e+00,  2.85818e+00, -2.11311e+00,  5.91400e-01], [-2.82771e-03, -3.17505e-03,  1.93697e-03,  4.29619e-02, -1.78919e-01, 3.53528e-01, -3.82857e-01,  2.16923e-01, -5.02721e-02], [-8.53512e-04,  7.92640e-04, -1.24063e-03,  4.65874e-03, -1.87465e-02,  8.70408e-03,  3.62357e-02, -4.73838e-02,  1.66805e-02]])
 
-
-# print(str(b[1]))

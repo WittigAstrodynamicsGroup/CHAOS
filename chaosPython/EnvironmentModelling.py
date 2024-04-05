@@ -1,4 +1,23 @@
-#Script to hold the environment models such as solar activity, atmospehric temperature, and and Sentman models
+
+"""
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Author: Kash Saddul
+Institution: Astrodynamics Research Group, 
+                University of Southampton
+Development period: 2020-2024
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+
+EnvironmentModelling.py
+
+This python code declares function that compute environmental parameters, such as atmospheric temperature, etc...
+Script to hold the environment models such as solar activity, atmospehric temperature, and and Sentman models
+
+"""
+
+
+
+
 from .transformations import julianDate
 from .quaternions import *
 import numpy as np 
@@ -6,7 +25,6 @@ import scipy
 from scipy.special import erf
 from scipy.interpolate import interp1d
 from .support_fun import floatPower
-
 
 def readSpaceWeatherFile(filename):
     """
