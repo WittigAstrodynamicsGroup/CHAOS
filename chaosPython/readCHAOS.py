@@ -24,7 +24,7 @@ and uses helper functions from other modules (`.class_extractor`,
 import os
 import numpy as np
 
-from .class_extractor import read_data, read_grid_data
+from .reader import read_data, read_grid_data
 from .quaternions import body_to_inertial
 import matplotlib.pyplot as plt
 from .transformations import eq_to_kep, equi_to_r_cart, equi_to_v_cart

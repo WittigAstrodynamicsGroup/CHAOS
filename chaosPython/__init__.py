@@ -1,3 +1,30 @@
+"""
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Author: Kash Saddul
+Institution: Astrodynamics Research Group, 
+                University of Southampton
+Development period: 2020-2024
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+
+__init__.py
+
+
+
+
+This file initializes the chaosPython Python module.
+
+It imports all the relevant classes and functions from various files within the 
+module structure, making them accessible when using the module.
+
+"""
+
+
+
+
+
+
 #init file to import all the relevant classes to CHAOS
 from .CHAOS import CHAOS
 from .class_sensor import Sensor
