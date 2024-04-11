@@ -79,7 +79,6 @@ class Satellite:
         self.mu = environment.mu #398600.4418   #km-5-vallado
         self.mu_E = self.mu * 1e9 # Earth gravity parameters
         self.epsilon = 1.1  #tolerance for value of B_hyst
-        self.it = None #iteration number for writing
 
 
         #initialisation of orbital state

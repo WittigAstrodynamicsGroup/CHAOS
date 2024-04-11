@@ -37,7 +37,7 @@ def pixel_fuel(t, satellite_state, *args):
     This even function is terminal
     """
 
-    return satellite_state[16]
+    return satellite_state[13]
 
 
 

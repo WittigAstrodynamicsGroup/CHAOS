@@ -296,7 +296,7 @@ if os.path.exists(outputPath + '/run{}/checkpoint.npz'.format(rank)) == True:
     
 
 #max simulated time -- This is a hard limit, no exception will be made
-stopper = 86400 * 1 * 1  # 1 year in seconds
+stopper = 86400 * 1 * 1  # 1 day in seconds
 
 
 
