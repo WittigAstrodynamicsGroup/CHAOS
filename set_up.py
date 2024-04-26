@@ -192,7 +192,7 @@ cubesat  = cp.Satellite(thruster_list,                          #Pass the thrust
 cubesat.quaternion = np.array([0.5, 0.5, 0.5, 0.5])     ##Quaternion giving the initial pointing --norm should be 1
 
 #angular velocity --radians
-cubesat.angularVel = np.array([0.4, 0.5, 0.25])*0.1     ##Initial angular velocity vector, in radians
+cubesat.angularVel = np.array([28, 28, 28])*np.pi/180     ##Initial angular velocity vector, in radians
 
 
 
@@ -242,7 +242,7 @@ events = [cp.pixel_fuel, cp.r_stop, cp.sensorMeasurement, cp.assessGridState, cp
 CS = cp.control_system(naive=0, quadrant=1, closed_loop=0, BPQS=0, omegaMax=0.2, cut_off_function=events)
 
 
-CS.switch=1                                         #on/off switch -- If off (=0), 
+CS.switch=0                                         #on/off switch -- If off (=0), 
                                                     # the thruster will not fire in the simulation.
                                                     #The integration will be done in one leg, no interruptions.
 
@@ -296,7 +296,7 @@ if os.path.exists(outputPath + '/run{}/checkpoint.npz'.format(rank)) == True:
     
 
 #max simulated time -- This is a hard limit, no exception will be made
-stopper = 86400 * 1 * 1  # 1 day in seconds
+stopper = 86400 * 0.01  # 1 day in seconds
 
 
 
