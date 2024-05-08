@@ -147,7 +147,7 @@ class Environment:
         # print('dot', dott)
         # print('v_dir norm', np.linalg.norm(v_dir))
         arr_angle = np.arccos(dott)
-        print('arr_angle', arr_angle*180/np.pi)
+        # print('arr_angle', arr_angle*180/np.pi)
         # print('area',area)
         #density
         h = (np.linalg.norm(r_eci) - self.R_E)
