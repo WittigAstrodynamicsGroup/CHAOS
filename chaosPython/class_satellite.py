@@ -127,7 +127,7 @@ class Satellite:
                                                             #file in 1 m2?
                                                             #----Typically, STL files uses millimeters^2 as unit
 
-        # self.minFacet = kwargs.get('minFacet', 4.6e-3)
+
         self.inertiaMatrix = kwargs.get('inertiaMatrix', np.diag([0.00216667]*3))   #Inertia matrix of the satellite
         self.InverseinertiaMatrix = np.linalg.inv(self.inertiaMatrix)               #Inverse of the inerta matrix
         self.centreOfMass = kwargs.get('centreOfMass', np.array([0, 0, 0]))         #Position of the satellite CoM
@@ -175,19 +175,9 @@ class Satellite:
         # INITIALISATION OF GEOMETRY
         ###########################
 
-        #using custom panel class
-        # if len(self.panelList) != 0:
-        #     self.areas = np.array([i.area for i in self.panelList])
-        #     self.normals = [i.surfNormal for i in self.panelList]
-        #     self.positions = [i.surfPos for i in self.panelList]
-        #     self.Tws = [i.Tw for i in self.panelList]
-        #     self.Crs = [i.Cr for i in self.panelList]
-        #     self.alpha_coeffs = [i.alpha for i in self.panelList]
-
         if self.STLfile is not None:
 
             #read stl file
-            # self.minFacet = self.minFacet * self.scale_factor   #minFacet given in m2
             HFstl = mesh.Mesh.from_file(self.STLfile)           #Load STL file
 
 

@@ -238,9 +238,10 @@ cp.assessGridState2.terminal = True                 ##Stops the integration if t
 #list of event functions
 events = [cp.pixel_fuel, cp.r_stop, cp.sensorMeasurement, cp.assessGridState, cp.assessGridState2]
 
-##Initialise the control system, and specify the control function and event functions
-CS = cp.control_system(naive=0, quadrant=1, closed_loop=0, BPQS=0, omegaMax=0.2, cut_off_function=events)
+##Initialise the control system, and specify the event functions
+CS = cp.control_system(cut_off_function=events)
 
+CS.CSfunction = CS.quadrantControl                  #Specify the constrol system function
 
 CS.switch=1                                         #on/off switch -- If off (=0), 
                                                     # the thruster will not fire in the simulation.
