@@ -57,7 +57,7 @@ class nBody(perturbationInterface):
         self.name = SPICEname                           # String for the name of the body
         
         #handled by perturbationManager
-        self.frame = "J2000"                            #defaults to EARTH
+        self.centralBody = "earth"                            #defaults to EARTH
         self.epoch = None                               #overridden by perturbationManager        
 
 
@@ -85,15 +85,15 @@ class nBody(perturbationInterface):
 
         **Returns:**
             tuple(numpy.ndarray): A tuple containing two NumPy ndarrays representing:
-                - accVector (km/s^2): Total force vector acting on the spacecraft in the simulation frame due to the modeled environmental effect.
-                - torqueVector (Nm): Total torque vector acting on the spacecraft in the simulation frame (currently set to zero).
+                - accVector (km/s^2): Total force vector acting on the spacecraft in the simulation centralBody due to the modeled environmental effect.
+                - torqueVector (Nm): Total torque vector acting on the spacecraft in the simulation centralBody (currently set to zero).
         """
         
         torqueVector = np.array([0, 0, 0])              #no torque
         
         
         #compute position of body:
-        vecBody = spiceTargPos(time, self.epoch, self.name, self.frame)
+        vecBody = spiceTargPos(time, self.epoch, self.name, self.centralBody)
 
         #compute acceleration vector
         accVector = nGravity(satelliteClass.eci_position(), vecBody, self.mu)

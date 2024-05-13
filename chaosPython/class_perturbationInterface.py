@@ -54,7 +54,6 @@ class perturbationInterface:
           raise TypeError("Can't instantiate abstract class perturbationInterface. Implement the force model in a derived class of perturbationInterface")
       
       # Call the __init_subclass__ method of the superclass (if any)
-      # chatgpt said so, don't understand why
       super().__init_subclass__(**kwargs)
 
 
