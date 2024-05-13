@@ -53,7 +53,9 @@ class Environment:
 
         #create interpolation function
         self.interpOions, self.interpHions = rhoIonsFunc()
-
+        
+        #Earth radius
+        self.R_E = 6378.1363
 
 
 

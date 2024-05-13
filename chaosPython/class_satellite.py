@@ -35,14 +35,7 @@ in a simulation environment.
 **Methods:**
 
 * The class defines several methods, including:
-    * `envPerturbations(t)`: Calculates environmental perturbations 
-      (force and torque) considering orbital effects (EGM, SRP) and 
-      aerodynamic effects (drag, lift) using high-fidelity models. It 
-      also accounts for fuel consumption.
 
-    * `LFenvPerturbations(t)`: Provides a low-fidelity estimate of 
-      environmental perturbations considering only orbital effects (EGM, SRP) 
-      using simplified models, ignoring attitude and aerodynamic effects.
 
     * `eci_position(self)`: Computes the spacecraft's ECI position vector 
       based on its modified equinoctial elements using an external 
@@ -65,18 +58,9 @@ import warnings
 
 class Satellite:
     #keyword input argument--default values for standard 1U CubeSat.
-    def __init__(self, grids, environment,  **kwargs):
+    def __init__(self,  **kwargs):
         
         
-        
-        #####################
-        # ENVIRONMENTAL INFO
-        #####################
-
-        #get environmental info
-        self.environment = environment                              #Environment class
-        self.grids = grids                                          #Grid/thruster class
-
 
 
         #####################
@@ -137,9 +121,8 @@ class Satellite:
         #####################
         # CONSTANTS
         #####################
-        # self.mu_fs = (4e-7) * np.pi #free space permeability
-        self.mu = environment.mu                # Earth gravity parameter #398600.4418   #km^5- from vallado
-        self.mu_E = self.mu * 1e9               # Earth gravity parameter- SI
+        self.mu = 398600.4418  #environment.mu                  # Earth gravity parameter #398600.4418   #km^5- from vallado
+        self.mu_E = self.mu * 1e9                               # Earth gravity parameter- SI
 
 
 
@@ -210,126 +193,7 @@ class Satellite:
     #####################
 
 
-    def envPerturbations(self, t):
-
-        """
-        Calculates environmental perturbations acting on the spacecraft.
-
-        This function computes the total force and torque acting on the spacecraft 
-        due to environmental effects. It considers:
-
-        * Orbital perturbations: Earth's gravity model (EGM) and solar radiation pressure 
-        (SRP) using a high-fidelity model from the `environment` object.
-        * Aerodynamic perturbations: Drag and lift forces/torques acting on individual 
-        panels/facets.
-        The mass change due to fuel consumption is included.
-
-        Args:
-            t (float): Simulation time (seconds).
-
-        Returns:
-            tuple[numpy.array, numpy.array]:
-                - Total environmental force acting on the spacecraft (N).
-                - Total environmental torque acting on the spacecraft (N*m).
-        """
-
-
-        #fetch the spacecraft state
-        vec_r_eci = self.eci_position()     #Position in ECI frame
-        vec_v_eci  =self.eci_velocity()     #Velocity in ECI frame
-        quaternion = self.quaternion        #quaternion
-        
-        #initialise force and torque vectors
-        disturb_force = np.array([0., 0., 0.])
-        disturb_torque = np.array([0., 0., 0.])
-
-
-
-        #### Compute fuel mass consumption
-
-        #for each grid, compute parameters
-        totalFuelMass = 0
-        totalBurntime = 0
-        burntimeVal = gridsBurntime(self.grids)
-        for grid in self.grids:
-            totalFuelMass += grid.fuelMass
-            totalBurntime += grid.totalburnTime
-
-        #compute  fuel consumption:
-        consumed_fuel = totalFuelMass*(1 - (burntimeVal / totalBurntime))
-        remaining_mass = self.mass - consumed_fuel
-
-
-
-
-        #compute pure orbital forces: EGM  + LS
-        disturb_force += self.environment.orbitalPerturbation(t, vec_r_eci, vec_v_eci, self.area, remaining_mass, self.Cd, self.Cr)
-        
-
-
-        #compute the torque and force for each panel/facet
-
-        #compute position relative to centre of mass
-        COMpos = self.positions - self.centreOfMass
-        force, torque = self.environment.panelPerturbation(t, vec_r_eci, vec_v_eci, remaining_mass, quaternion, self.areas, self.normals, self.Tws, self.alpha_coeffs, self.Crs, COMpos)
-        
-        # sums up torques and forces
-        disturb_force += force
-        disturb_torque += torque
-
-
-
-        return disturb_force, disturb_torque
     
-
-
-
-
-
-    def LFenvPerturbations(self, t):
-        """
-        Calculates low-fidelity environmental perturbations acting on the spacecraft.
-
-        This function computes a simplified estimate of the total force and torque 
-        acting on the spacecraft due to environmental effects. It considers:
-
-        * Orbital perturbations: Earth's gravity model (EGM) and solar radiation pressure 
-        (SRP) using a low-fidelity model ingoring the attitude propagation. The drag is also included.
-
-        **High-fidelity Aerodynamic and SRP effects are not included in this 
-        low-fidelity calculation. The mass of the spacecraft is invariant throughout the simulation**
-
-        Args:
-            t (float): Simulation time (seconds).
-
-        Returns:
-            tuple[numpy.array, numpy.array]:
-                - Total environmental force acting on the spacecraft (N).
-                - Total environmental torque acting on the spacecraft (N*m).
-        """
-
-
-        #fetch the spacecraft state
-        vec_r_eci = self.eci_position()
-        vec_v_eci  =self.eci_velocity()
-
-        #initialise the force and torque vectors
-        disturb_force = np.array([0., 0., 0.])
-        disturb_torque = np.array([0., 0., 0.])
-
-        #compute pure orbital forces: EGM  + LS
-        disturb_force += self.environment.orbitalPerturbation(t, vec_r_eci, vec_v_eci, self.area, self.mass, self.Cd, self.Cr)
-
-
-        #call low fidelity drag and srp forces
-        disturb_force += self.environment.LFpanelPerturbation(t, vec_r_eci, vec_v_eci, self.area, self.mass, self.Cd, self.Cr)
-        
-
-
-        return disturb_force, disturb_torque
-
-
-
 
 
     def eci_position(self):

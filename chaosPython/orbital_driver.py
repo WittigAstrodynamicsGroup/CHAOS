@@ -38,12 +38,12 @@ from .quaternions import body_to_inertial
 
 
 
-def modified_equinoctial(t, satellite_state, thrust, orbital_perturb, satellite, grid, environment):
+def modified_equinoctial(t, satellite_state, thrust, orbital_perturb, satellite, grid, manager):
     
     #split state
     equinoctial = satellite_state[:6]
     quaternion = satellite_state[6:10]
-    mu = environment.mu
+    mu = manager.mu
 
     #update equinoctial element in satellite class 
     satellite.modEquinoctialElements = equinoctial

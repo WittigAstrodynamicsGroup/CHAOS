@@ -56,7 +56,8 @@ class perturbationManager:
 
         self.epoch = np.array([1, 1, 2000])                 #simulation epoch
         self.centralBody = 'earth'                          #simulation cenrtal body             
-
+        self.mu = 398600.4418                               #gravitational parameter, km-5-vallado
+        self.bodyRadius = 6378.1363                         #Primary body radius
 
         self.forceModelsList = []                           #list where the perturbation class are stored
 
@@ -67,7 +68,6 @@ class perturbationManager:
         #planetary constants
         # self.R_E = 6378.1363 # km
         # self.R_Sun = 696000 #km
-        # self.mu = 398600.4418   #km-5-vallado
         # self.mu_sun = 1.327122e11#1.32712428e11 #km^3 /s^2 gmat:132712440017.99
         # self.mu_moon = 4.902800305555e3#4902.799 #km^3 /s2 GMAT: 4902.8005821478
 
@@ -92,6 +92,7 @@ class perturbationManager:
         for cls in self.forceModelsList:
             cls.centralBody = self.centralBody
             cls.epoch = self.epoch
+            cls.R_E = self.bodyRadius
 
 
 
@@ -113,12 +114,13 @@ class perturbationManager:
         """
 
         #define acceleration and torque vectors
-        accVec = np.array([0, 0, 0])
-        torqueVec = np.array([0, 0, 0])
+        accVec = np.array([0., 0., 0.])
+        torqueVec = np.array([0., 0., 0.])
 
         #for each provided perturbation
         for f in self.forceModelsList:
-            acc, torque = f.computeTorque(time, satelliteClass)
+            acc, torque = f.computePerturb(time, satelliteClass)
+
             accVec += acc
             torqueVec += torque
 

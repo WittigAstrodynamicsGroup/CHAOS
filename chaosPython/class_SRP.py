@@ -79,14 +79,14 @@ class LowFidelitySRP(perturbationInterface):
 
         #handled by perturbationManager:
         self.epoch = None                               #overridden by perturbationManager
-        self.centralBody = 'earth'                      #defaults to earth
-
+        self.centralBody = 'earth'                      #defaults to earth      
+        self.R_E = 6378.1363                            #Primary body radius
 
 
         #constants
         self.R_Sun = 696000                             # sun radius, km  
         self.lightSpeed = 299792458                     # speed of light, m/s
-        
+
         
         
     ####################
@@ -126,7 +126,9 @@ class LowFidelitySRP(perturbationInterface):
                                              satelliteClass.area,
                                              satelliteClass.mass,
                                              satelliteClass.Cr,             #coefficient of reflection
-                                             self.lightSpeed)
+                                             self.lightSpeed, 
+                                             self.R_E, 
+                                             self.R_Sun)
 
 
 
@@ -224,7 +226,9 @@ class HighFidelitySRP(perturbationInterface):
                                            arr_normal, 
                                            COMpos, 
                                            arr_Cr, 
-                                           self.lightSpeed)
+                                           self.lightSpeed,
+                                           self.R_E,
+                                           self.R_Sun)
 
 
 

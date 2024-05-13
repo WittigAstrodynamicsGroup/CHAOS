@@ -71,7 +71,7 @@ from .support_fun import gridsBurntime, selectGrid
 
 
 
-def coupledMotion(t, satellite_state, thrust, torque_thruster, satellite, grids, selected_grid, CS, environment, sensor, it):
+def coupledMotion(t, satellite_state, thrust, torque_thruster, satellite, grids, selected_grid, CS, environment, sensor, manager, it):
     """
     Calculates the combined derivatives of the spacecraft's orbital and attitude states.
 
@@ -88,6 +88,7 @@ def coupledMotion(t, satellite_state, thrust, torque_thruster, satellite, grids,
         CS (class object): Instance of the `ControlSystem` class implementing the control logic. 
         environment (class object): Instance of the `Environment` class representing the environment.
         sensor (class object): Instance of the `Sensor` class modeling the sensor readings. 
+        manager (class object): perturbationManager instance to call perturbation models
         it (int): Current simulation iteration number. 
 
     Returns:
@@ -121,12 +122,12 @@ def coupledMotion(t, satellite_state, thrust, torque_thruster, satellite, grids,
 
 
     #evaluate the forces and torques acting on the spacecraft
-    orbital_perturb, torque_env = satellite.envPerturbations(t)
+    orbital_perturb, torque_env = manager.callForceModels(t, satellite)
 
 
 
     # compute osculating elements
-    osculating = modified_equinoctial(t, satellite_state, thrust, orbital_perturb, satellite, selected_grid, environment)
+    osculating = modified_equinoctial(t, satellite_state, thrust, orbital_perturb, satellite, selected_grid, manager)
 
 
 
@@ -151,13 +152,14 @@ def coupledMotion(t, satellite_state, thrust, torque_thruster, satellite, grids,
 
 
 
-def CHAOS(satellite, environment, grids, controlSystem, sensor, dataset, t_stop, writepath, iteration, integrator='DOP853', tols=1e-6):
+def CHAOS(satellite, manager, environment, grids, controlSystem, sensor, dataset, t_stop, writepath, iteration, integrator='DOP853', tols=1e-6):
 
     """
     Drives the CHAOS spacecraft simulation.
 
     Args:
         satellite (class object): Instance of the `Satellite` class representing the spacecraft.
+        manager (class object): Instace of the `perturbationManager` class handling the force models
         environment (class object): Instance of the `Environment` class representing the environment.
         grids (list): List of `Grid` class objects representing the thruster grids.
         controlSystem (class object): Instance of the `ControlSystem` class implementing the control logic.
@@ -381,6 +383,7 @@ def CHAOS(satellite, environment, grids, controlSystem, sensor, dataset, t_stop,
                                           controlSystem,                            #Control system object
                                           environment,                              #Enviornment object
                                           sensor,                                   #Sensor object
+                                          manager,                                  #perturbation manager 
                                           iteration),                               #Simulation name
                                     events=controlSystem.cut_off_function,          #Terminal functions to stop integration
                                     dense_output=False,                                

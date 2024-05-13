@@ -81,7 +81,7 @@ class LowFidelityDrag(perturbationInterface):
         #handled by perturbationManager:
         self.epoch = None                               #overridden by perturbation manager
         self.centralBody = 'earth'                      #defaults to earth
-
+        self.R_E = 6378.1363                            #defaults to Earth
 
         #constants:
         self.EarthFlattening = 1 / 298.257                  #flattening coefficeint of the Earth (Vallado)

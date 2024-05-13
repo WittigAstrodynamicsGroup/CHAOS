@@ -80,7 +80,7 @@ def r_stop(t, satellite_state, *args):
     return event
 
 
-def sensorMeasurement(t, satellite_state, thrust, torque_thruster, satellite, grid, selected_grid, controlSystem, environment, sensor, iteration):
+def sensorMeasurement(t, satellite_state, thrust, torque_thruster, satellite, grid, selected_grid, controlSystem, environment, sensor, manager, iteration):
 
     """
     Simulates sensor measurements of the spacecraft's angular velocity.
@@ -235,7 +235,7 @@ def computeGridState(satellite_state, grid, CS, environment, sensor):
     return gridState
 
 
-def assessGridState2(t, satellite_state, thrust,  torque_thruster, satellite, grids, selected_grid, controlSystem, environment, sensor, iteration):
+def assessGridState2(t, satellite_state, thrust,  torque_thruster, satellite, grids, selected_grid, controlSystem, environment, sensor, manager, iteration):
     """
     Event function to assess the firing state of the last grid.
 
@@ -254,7 +254,7 @@ def assessGridState2(t, satellite_state, thrust,  torque_thruster, satellite, gr
 
 
 
-def assessGridState(t, satellite_state, thrust,  torque_thruster, satellite, grids, selected_grid, controlSystem, environment, sensor, iteration):
+def assessGridState(t, satellite_state, thrust,  torque_thruster, satellite, grids, selected_grid, controlSystem, environment, sensor, manager, iteration):
     """
     Event function to assess the firing state of the first grid.
 
@@ -272,7 +272,7 @@ def assessGridState(t, satellite_state, thrust,  torque_thruster, satellite, gri
 
 
 
-def torqueProfile(t, satellite_state, thrust, torque_thruster, satellite, grids, selected_grid, controlSystem, environment, sensor, iteration):
+def torqueProfile(t, satellite_state, thrust, torque_thruster, satellite, grids, selected_grid, controlSystem, environment, sensor, manager, iteration):
     """
     Calculates and logs the combined torque acting on the spacecraft.
 

@@ -61,7 +61,7 @@ trueAnomaly = 0 *np.pi/180          #True Anomaly
 # rank = comm.Get_rank()              #get the rank of this current process
 
 #If you want only one simulation
-rank  = '1_test'                         #The number here will be the simulation ID   
+rank  = 'keplerian'                         #The number here will be the simulation ID   
 
 #If you need to run a few specific simulation IDs 
 # to_run = [1, 2, 3]                #This example runs simulation 1, 2, 3 in parallel
@@ -73,17 +73,68 @@ rank  = '1_test'                         #The number here will be the simulation
 ######################################
 #Define the force models to be used
 ######################################
-LEO = cp.Environment( J77=1, egm=1, solarGravity=1, lunarGravity=1, SRP=1)  #Create the environment class and pass the perturbation functions
-LEO.epoch = np.array([1, 7, 2007])          #Set the epoch at the start of the simulation
+
+#Call the perturbation classes
+#Each of them has a "computePerturb(t, satelliteClass)" method, 
+#and returns a tuple (accelerationVector, TorqueVector).
+#To create your own model, create a class derived from perturbationInterface (cp.perturbationInterface)
 
 #EGM
-LEO.egmDegree=4                             #Set the degree of the EGM model. Can be ignored if EGM not used
-LEO.egmOrder=4                              #Set the order of the EGM model. Can be ignored if EGM not used
+egm = cp.EarthGravityModel()
+
+#Moon /Sun gravity
+MoonGravity = cp.nBody(gravitationalParameter=4.902800305555e3,                 #GMAT value: 4902.8005821478
+                        SPICEname='moon') 
+SunGravity = cp.nBody(gravitationalParameter=1.327122e11,                       #GMAT value: 132712440017.99
+                       SPICEname='sun')      
+
+
+#SRP -- low fidelity or high fidelity to choose from:
+LFsrp = cp.LowFidelitySRP()
+HFsrp = cp.HighFidelitySRP()
+
+
+#Drag-- Low fidelity or high fidelity to choose from:
+LFdrag = cp.LowFidelityDrag()
+HFdrag = cp.HighFidelityDrag()
 
 
 
 
 
+
+######################################
+#Call on a manager class to handle
+#force models
+######################################
+
+
+#All these perturbation classes are handled by the perturbation Manager class:
+manager = cp.perturbationManager()
+
+#give the perturbation desired for the simulation --orbital and attitude perturbation models!!
+## --- empty list for keplerian motion
+manager.forceModelsList = [egm, MoonGravity, SunGravity, HFdrag, HFsrp]
+
+#set simulation details:
+manager.epoch = np.array([1, 7, 2014])                              #Simulation start time: i.e. 1st of July 2014
+
+#set central body
+manager.centralBody = 'earth'                                       #Central body of simulation 
+manager.mu = 398600.4418                                            #associated gravitational parameter    
+manager.bodyRadius = 6378.1363                                      #Primary body radius
+
+
+#IMPORTANT:
+#This updates the epoch and central body in 
+#all perturbation classes appended in forceModelsList
+manager.initialSetUp()                                              #call this at the end of the manager set-up!                                        
+
+######################################
+#Initialise the environment model
+######################################
+
+LEO = cp.Environment()
 
 
 ######################################
@@ -167,9 +218,7 @@ inertia = np.array([[0.00182,0,0], [0,0.00185,0], [0,0,0.00220]])           #1U 
 kep = np.array([sma, ecc, inc, raan, wp, trueAnomaly])                      #orbital parameters 
 
 
-cubesat  = cp.Satellite(thruster_list,                          #Pass the thruster list ot the CubeSat
-                        LEO,                                    #perturbation class -- informs on the epoch, environment, etc...
-                        inertiaMatrix=inertia,                  #Inertia matrix of the cubesat
+cubesat  = cp.Satellite(inertiaMatrix=inertia,                  #Inertia matrix of the cubesat
                         keplerianElements=kep,                  #Passes the keplerian element of the CubeSat. this 
                                                                 #is taken into account only as the initial position.
                                                                 #If a checkpointing file exist, this value in inconsequential
@@ -319,7 +368,8 @@ kernels_to_load = ['/lsk/naif0012.tls',
 #load spiceypy kernels
 cp.loadKernels(kernels_to_load)
 
-p = cp.CHAOS(cubesat,                   #Satellite object      
+p = cp.CHAOS(cubesat,                   #Satellite object  
+                manager,                #perturbation manager class    
                 LEO,                    #Environment object
                 thruster_list,          #List of thruster object
                 CS,                     #Control system object

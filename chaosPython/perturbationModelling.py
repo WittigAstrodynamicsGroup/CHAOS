@@ -235,7 +235,7 @@ def percentShadow(vec_r, vec_r_sun, radiusEarth, radiusSun):
 
 
 
-def LFsolarRadiationPressure(vec_r, vec_sun, area, m, Cr, lightSpeed):
+def LFsolarRadiationPressure(vec_r, vec_sun, area, m, Cr, lightSpeed, centralBodyRadius, starRadius):
     """
     Calculates the solar radiation pressure acceleration acting on a satellite.
 
@@ -261,7 +261,7 @@ def LFsolarRadiationPressure(vec_r, vec_sun, area, m, Cr, lightSpeed):
 
 
     #Percent of sun disk visible
-    p = percentShadow(vec_r, vec_sun)               #in/out of shadow
+    p = percentShadow(vec_r, vec_sun, centralBodyRadius, starRadius)               #in/out of shadow
 
 
     vec_sun_sat = vec_r - vec_sun                   #sun to satellite vector, km 
@@ -426,7 +426,7 @@ def drag(r_eci, v_eci,  m, omega_E, R_E, arr_area, Ta, arr_Tw, quaternion, arr_n
 
 
 
-def solarRadiationPressure( vec_r, vec_sun, m, quaternion, arr_area, arr_normal, arr_position, arr_Cr, lightSpeed):
+def solarRadiationPressure( vec_r, vec_sun, m, quaternion, arr_area, arr_normal, arr_position, arr_Cr, lightSpeed, centralBodyRadius, starRadius):
     """
     Calculates the total solar radiation pressure (SRP) acceleration and torque acting on a spacecraft.
 
@@ -456,7 +456,7 @@ def solarRadiationPressure( vec_r, vec_sun, m, quaternion, arr_area, arr_normal,
 
 
     #Percent of sun disk visible
-    p = percentShadow(vec_r, vec_sun)               #in/out of shadow
+    p = percentShadow(vec_r, vec_sun,centralBodyRadius, starRadius)               #in/out of shadow
 
 
     #Useful vectors
