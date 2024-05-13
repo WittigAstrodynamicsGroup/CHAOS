@@ -32,7 +32,7 @@ from .class_sensor import Sensor
 from .class_satellite import Satellite
 from .class_control_system import control_system
 from .gridShape import AA_2FC_grid, AA_FC_grid, oppositeFace
-from .class_perturbations import Environment
+from .class_perturbationManager import Environment
 from .class_grid import Grid
 from .class_dataset import Dataset
 from .support_fun import basicQuadrant
