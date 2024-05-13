@@ -84,6 +84,6 @@ class perturbationInterface:
               - forceVector (km/s^2): Total force vector acting on the spacecraft in the simulation.
               - torqueVector (Nm): Total torque vector acting on the spacecraft in the simulation.
       """
-
+      ##OVERRIDE WITH ACTUAL IMPLEMENTATION
       raise NotImplementedError("The function [computePerturb] must be implemented, with inputs (self, time, satelliteClass) and return (forceVector, torqueVector)!")
       
