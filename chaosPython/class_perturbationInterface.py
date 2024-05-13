@@ -39,52 +39,52 @@ Key functionalities include:
 class perturbationInterface:
 
 
-    ####################
-    # INSTANTIATION
-    ####################
+  ####################
+  # INSTANTIATION
+  ####################
 
 
-    # This method is automatically called when a subclass of MyInterface is created
-    def __init_subclass__(cls, **kwargs):
+  # This method is automatically called when a subclass of MyInterface is created
+  def __init_subclass__(cls, **kwargs):
 
-        # Check if the subclass being created is MyInterface itself
-        if cls.__name__ == 'MyInterface':
+      # Check if the subclass being created is MyInterface itself
+      if cls.__name__ == 'MyInterface':
 
-            # If so, raise a TypeError indicating that MyInterface cannot be instantiated
-            raise TypeError("Can't instantiate abstract class perturbationInterface. Implement the force model in a derived class of perturbationInterface")
-        
-        # Call the __init_subclass__ method of the superclass (if any)
-        # chatgpt said so, don't understand why
-        super().__init_subclass__(**kwargs)
-
-
-
-    ####################
-    # METHODS
-    ####################
-
-    # This method is marked as abstract and must be implemented by subclasses
-    def computePerturb(self, time, satelliteClass):
-        """
-        This function is designed to compute the environmental perturbations acting on a spacecraft.
-
-        **Abstract Method:** This function serves as an abstract method (or a placeholder) 
-        and requires implementation in derived classes. It takes three arguments:
-
-        - `self`: Reference to the current object instance.
-        - `time`: Simulation time 
-        - `satelliteClass`: Reference to a class holding information about the spacecraft 
-                                (e.g., mass, area, coefficients).
+          # If so, raise a TypeError indicating that MyInterface cannot be instantiated
+          raise TypeError("Can't instantiate abstract class perturbationInterface. Implement the force model in a derived class of perturbationInterface")
+      
+      # Call the __init_subclass__ method of the superclass (if any)
+      # chatgpt said so, don't understand why
+      super().__init_subclass__(**kwargs)
 
 
-        NOTE: This function raises a `NotImplementedError` to enforce implementation 
-        in child classes, as it's an abstract method.
 
-        **Returns:**
-            tuple(numpy.ndarray): A tuple containing two NumPy ndarrays representing:
-                - forceVector (km/s^2): Total force vector acting on the spacecraft in the simulation.
-                - torqueVector (Nm): Total torque vector acting on the spacecraft in the simulation.
-        """
+  ####################
+  # METHODS
+  ####################
 
-        raise NotImplementedError("The function [computePerturb] must be implemented, with inputs (self, time, satelliteClass) and return (forceVector, torqueVector)!")
-        
+  # This method is marked as abstract and must be implemented by subclasses
+  def computePerturb(self, time, satelliteClass):
+      """
+      This function is designed to compute the environmental perturbations acting on a spacecraft.
+
+      **Abstract Method:** This function serves as an abstract method (or a placeholder) 
+      and requires implementation in derived classes. It takes three arguments:
+
+      - `self`: Reference to the current object instance.
+      - `time`: Simulation time 
+      - `satelliteClass`: Reference to a class holding information about the spacecraft 
+                              (e.g., mass, area, coefficients).
+
+
+      NOTE: This function raises a `NotImplementedError` to enforce implementation 
+      in child classes, as it's an abstract method.
+
+      **Returns:**
+          tuple(numpy.ndarray): A tuple containing two NumPy ndarrays representing:
+              - forceVector (km/s^2): Total force vector acting on the spacecraft in the simulation.
+              - torqueVector (Nm): Total torque vector acting on the spacecraft in the simulation.
+      """
+
+      raise NotImplementedError("The function [computePerturb] must be implemented, with inputs (self, time, satelliteClass) and return (forceVector, torqueVector)!")
+      

@@ -41,6 +41,11 @@ from .EGM_V import matricise, egm08
 
 class EarthGravityModel(perturbationInterface):
 
+    ####################
+    # INSTANTIATION
+    ####################
+
+
     def __init__(self):
 
 
@@ -66,7 +71,9 @@ class EarthGravityModel(perturbationInterface):
 
 
 
-
+    ####################
+    # METHODS
+    ####################
 
     def computePerturb(self, time, satelliteClass):
         """

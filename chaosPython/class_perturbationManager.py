@@ -27,8 +27,7 @@ class Environment:
 
         #define initial atttributes
         self.J77 = kwargs.get('J77', True)
-        self.lunarGravity = kwargs.get('lunarGravity', True)
-        self.solarGravity = kwargs.get('solarGravity', True)
+
         self.srp = kwargs.get('SRP', True)
 
         #define constants
@@ -53,12 +52,7 @@ class Environment:
         self.omega_E = np.array([0, 0, 0.0000729211585530]) #earth rotation
         self.EarthFlattening = 1 / 298.257
 
-        #egm
-        #get data path
-        self.dataFilePath = os.path.dirname(__file__) + '/Data'
 
-        self.C = matricise(2, filename = self.dataFilePath + '/Environment/Gravity/EGM96_n36') #EGM coefficient
-        self.S = matricise(3, filename = self.dataFilePath + '/Environment/Gravity/EGM96_n36') #EGM coefficients
         #space weather
         self.interpf10, self.interpctr81 = interpF10Index_ext(self.dataFilePath + '/Environment/Atmosphere/SpaceWeather-test.txt')
         self.interpOions, self.interpHions = rhoIonsFunc()
