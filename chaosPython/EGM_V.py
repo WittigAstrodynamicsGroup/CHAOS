@@ -345,7 +345,7 @@ def static_egm08(r, phi, lmbda, C, S, deg, order):
 
     
 
-def egm08(t, r_cartesian, v_inertial, C, S, epoch, deg, order):
+def egm08(t, r_cartesian, C, S, epoch, deg, order):
     """
     This function computes the non-Keplerian gravity acceleration acting on a 
     point mass in the inertial frame at a given time. It utilizes the EGM08 
@@ -355,8 +355,6 @@ def egm08(t, r_cartesian, v_inertial, C, S, epoch, deg, order):
         t (float): Time in seconds since a reference epoch.
         r_cartesian (numpy.ndarray): Position vector of the point mass in the 
                                       inertial frame (km).
-        v_inertial (numpy.ndarray): Velocity vector of the point mass in the 
-                                      inertial frame (km/s).
         C (numpy.ndarray): Array containing the C coefficients of the EGM08 model.
         S (numpy.ndarray): Array containing the S coefficients of the EGM08 model.
         epoch (tuple): A tuple containing the year, month, and day of the 

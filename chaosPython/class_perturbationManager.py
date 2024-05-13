@@ -27,16 +27,13 @@ class Environment:
 
         #define initial atttributes
         self.J77 = kwargs.get('J77', True)
-        self.egm = kwargs.get('egm', True)
-        self.gg = kwargs.get('gravityGradient', False)
         self.lunarGravity = kwargs.get('lunarGravity', True)
         self.solarGravity = kwargs.get('solarGravity', True)
         self.srp = kwargs.get('SRP', True)
 
         #define constants
         self.atmTemperature = 1100 # Kelvin
-        self.egmDegree = 2
-        self.egmOrder = self.egmDegree
+
         self.epoch = np.array([1, 1, 2000])
         self.epoch_num = self.epoch
 
