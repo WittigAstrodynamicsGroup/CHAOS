@@ -26,12 +26,10 @@ class Environment:
     def __init__(self, **kwargs):
 
         #define initial atttributes
-        self.J77 = kwargs.get('J77', True)
 
         self.srp = kwargs.get('SRP', True)
 
         #define constants
-        self.atmTemperature = 1100 # Kelvin
 
         self.epoch = np.array([1, 1, 2000])
         self.epoch_num = self.epoch
