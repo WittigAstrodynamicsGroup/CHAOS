@@ -92,7 +92,8 @@ class Satellite:
         # SATELLITE DATA
         #####################
         #defaults to a 1U CubeSat
-        self.mass = kwargs.get('mass', 1.33)                #mass [kg]
+        self.mass = kwargs.get('mass', 1.33)                #total wet mass [kg]-- updated as fuel is consumed
+        self.mass0 = kwargs.get('mass', 1.33)               #total initial wet mass [kg], invariant -- value does not change through sim.
         self.Cd = kwargs.get('Cd', 2.2)                     #drag coefficient
         self.Cr = kwargs.get('Cr', 0.8)                     #reflection coefficient, for SRP
         self.area = kwargs.get('area', 0.015)               # average area, for low-fidelity models

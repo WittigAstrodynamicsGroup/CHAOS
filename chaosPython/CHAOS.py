@@ -64,7 +64,7 @@ import scipy.integrate as integrate
 from .attitude_ODE import analytical
 from .smart_fun import r_stop, changeGridState
 from .orbital_driver import modified_equinoctial
-from .support_fun import gridsBurntime, selectGrid
+from .support_fun import gridsBurntime, selectGrid, updateFuelMass
 
 
 
@@ -119,7 +119,8 @@ def coupledMotion(t, satellite_state, thrust, torque_thruster, satellite, grids,
         omega_state[8+grid] = grids[grid].state
 
 
-
+    ##update satellite mass:
+    satellite.mass = updateFuelMass(grids, satellite)
 
     #evaluate the forces and torques acting on the spacecraft
     orbital_perturb, torque_env = manager.callForceModels(t, satellite)

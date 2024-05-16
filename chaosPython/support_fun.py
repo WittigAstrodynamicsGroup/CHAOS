@@ -225,3 +225,42 @@ def basicQuadrant(r_dict):
             III[i] = r_dict[i]
 
     return I, II, III, IV
+
+
+
+def updateFuelMass(grids, satelliteClass):
+    """
+    Calculates the mass of fuel consumption and the remaining mass.
+
+    This function iterates through a list of grids 
+    provided in `grids` and calculates the  mass of fuel 
+    consumption based on a burning rate model.
+
+   
+    **Arguments:**
+        - grids: List of objects representing fuel tank grids (content 
+                 assumed).
+        - satelliteClass: Reference to a class holding information about the 
+                          spacecraft, including its initial mass (`mass`).
+
+    **Returns:**
+        float: The updated mass of the spacecraft (kg) after accounting for 
+              fuel consumption.
+    """
+    
+    #for each grid, compute parameters
+    totalFuelMass = 0
+    totalBurntime = 0
+    burntimeVal = gridsBurntime(grids)
+    for grid in grids:
+        totalFuelMass += grid.fuelMass
+        totalBurntime += grid.totalburnTime
+
+    #compute  fuel consumption:
+    consumed_fuel = totalFuelMass*(1 - (burntimeVal / totalBurntime))
+
+    #compute remaining fuel
+    #NOTE: Use sat.mass0 as mass0 is not updated!
+    remaining_mass = satelliteClass.mass0 - consumed_fuel
+
+    return remaining_mass

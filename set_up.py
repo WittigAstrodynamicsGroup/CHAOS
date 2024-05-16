@@ -61,7 +61,7 @@ trueAnomaly = 0 *np.pi/180          #True Anomaly
 # rank = comm.Get_rank()              #get the rank of this current process
 
 #If you want only one simulation
-rank  = 'keplerian'                         #The number here will be the simulation ID   
+rank  = 'test'                         #The number here will be the simulation ID   
 
 #If you need to run a few specific simulation IDs 
 # to_run = [1, 2, 3]                #This example runs simulation 1, 2, 3 in parallel
@@ -76,7 +76,7 @@ rank  = 'keplerian'                         #The number here will be the simulat
 
 #Call the perturbation classes
 #Each of them has a "computePerturb(t, satelliteClass)" method, 
-#and returns a tuple (accelerationVector, TorqueVector).
+#and returns a tuple (accelerationVector, TorqueVector) [km/s^2, Nm].
 #To create your own model, create a class derived from perturbationInterface (cp.perturbationInterface)
 
 #EGM
@@ -109,7 +109,7 @@ HFdrag = cp.HighFidelityDrag()
 ######################################
 
 
-#All these perturbation classes are handled by the perturbation Manager class:
+#All the perturbation classes are handled by the perturbation Manager class:
 manager = cp.perturbationManager()
 
 #give the perturbation desired for the simulation --orbital and attitude perturbation models!!
@@ -119,7 +119,9 @@ manager.forceModelsList = [egm, MoonGravity, SunGravity, HFdrag, HFsrp]
 #set simulation details:
 manager.epoch = np.array([1, 7, 2014])                              #Simulation start time: i.e. 1st of July 2014
 
-#set central body
+#set central body--
+#These are passed to the 
+#perturbation classes
 manager.centralBody = 'earth'                                       #Central body of simulation 
 manager.mu = 398600.4418                                            #associated gravitational parameter    
 manager.bodyRadius = 6378.1363                                      #Primary body radius
@@ -132,6 +134,7 @@ manager.initialSetUp()                                              #call this a
 
 ######################################
 #Initialise the environment model
+##in this case it's ionic density only
 ######################################
 
 LEO = cp.Environment()
@@ -234,7 +237,7 @@ cubesat  = cp.Satellite(inertiaMatrix=inertia,                  #Inertia matrix 
 
 
 ##################################################
-#Finilise setting initial condition for satellite
+#Finalise setting initial condition for satellite
 #Attitude 
 ##################################################
 
@@ -290,7 +293,7 @@ events = [cp.pixel_fuel, cp.r_stop, cp.sensorMeasurement, cp.assessGridState, cp
 ##Initialise the control system, and specify the event functions
 CS = cp.control_system(cut_off_function=events)
 
-CS.CSfunction = CS.quadrantControl                  #Specify the constrol system function
+CS.CSfunction = CS.quadrantControl                  #Specify the control system function
 
 CS.switch=1                                         #on/off switch -- If off (=0), 
                                                     # the thruster will not fire in the simulation.

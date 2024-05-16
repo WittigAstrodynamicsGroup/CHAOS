@@ -161,6 +161,8 @@ class HighFidelitySRP(perturbationInterface):
         #handled by perturbationManager:
         self.epoch = None                               #overridden by perturbationManager
         self.centralBody = 'earth'                      #defaults to earth
+        self.R_E = 6378.1363                            #Primary body radius
+
 
 
 
